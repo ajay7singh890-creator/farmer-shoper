@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>किसान साथी AI - स्मार्ट लॉगिन</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        /* Role Selection Box */
+        .role-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: var(--white);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .role-btn.active {
+            border-color: var(--primary-color);
+            background-color: #e8f5e9;
+        }
+
+        .role-btn .icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .role-btn h3 {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        /* Login Form */
+        .login-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .login-card h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fafafa;
+        }
+
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .login-btn:hover {
+            background-color: #236327;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .switch-text a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Mobile View Fix */
+        @media (max-width: 400px) {
+            .role-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>किसान साथी AI</h1>
+        <p>सही दाम, सीधा व्यापार</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="role-selector">
+            <div class="role-btn active" id="btn-farmer" onclick="switchRole('farmer')">
+                <div class="icon">👨‍🌾</div>
+                <h3>मैं किसान हूँ<br>(विक्रेता/Seller)</h3>
+            </div>
+            <div class="role-btn" id="btn-buyer" onclick="switchRole('buyer')">
+                <div class="icon">🏢</div>
+                <h3>मैं खरीदार हूँ<br>(कंपनी/Buyer)</h3>
+            </div>
+        </div>
+
+        <div class="login-card">
+            <h2 id="login-title">किसान लॉगिन (Seller)</h2>
+            
+            <form onsubmit="event.preventDefault(); alert('लॉगिन सफल!');">
+                
+                <div class="form-group">
+                    <label id="lbl-identity" for="identity">मोबाइल नंबर</label>
+                    <input type="text" id="identity" placeholder="अपना 10 अंकों का नंबर डालें" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">पासवर्ड</label>
+                    <input type="password" id="password" placeholder="अपना पासवर्ड डालें" required>
+                </div>
+
+                <div class="form-group" id="company-field" style="display: none;">
+                    <label for="company">कंपनी का नाम / GSTIN</label>
+                    <input type="text" id="company" placeholder="कंपनी का नाम या GST नंबर">
+                </div>
+
+                <button type="submit" class="login-btn" id="btn-submit">लॉगिन करें</button>
+            </form>
+
+            <div class="switch-text">
+                नया अकाउंट बनाना चाहते हैं? <a href="#">यहाँ रजिस्टर करें</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchRole(role) {
+            const btnFarmer = document.getElementById('btn-farmer');
+            const btnBuyer = document.getElementById('btn-buyer');
+            const loginTitle = document.getElementById('login-title');
+            const lblIdentity = document.getElementById('lbl-identity');
+            const identityInput = document.getElementById('identity');
+            const companyField = document.getElementById('company-field');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            if (role === 'farmer') {
+                // UI Changes for Farmer
+                btnFarmer.classList.add('active');
+                btnBuyer.classList.remove('active');
+                
+                loginTitle.innerText = "किसान लॉगिन (Seller)";
+                lblIdentity.innerText = "मोबाइल नंबर";
+                identityInput.placeholder = "अपना 10 अंकों का नंबर डालें";
+                companyField.style.display = "none";
+                
+                // Color theme change
+                document.documentElement.style.setProperty('--primary-color', '#2e7d32');
+            } else if (role === 'buyer') {
+                // UI Changes for Buyer/Company
+                btnBuyer.classList.add('active');
+                btnFarmer.classList.remove('active');
+                
+                loginTitle.innerText = "व्यापारी / कंपनी लॉगिन (Buyer)";
+                lblIdentity.innerText = "ईमेल आईडी / मोबाइल नंबर";
+                identityInput.placeholder = "ईमेल या मोबाइल नंबर डालें";
+                companyField.style.display = "block";
+                
+                // Color theme change to Blue (Professional look for companies)
+                document.documentElement.style.setProperty('--primary-color', '#1565c0');
+            }
+        }
+    </script>
+
+</body>
+</html>
