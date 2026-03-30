@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Super - डैशबोर्ड</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Role Selection (Previous Login) */
+        .role-box {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-farmer { background-color: var(--secondary-color); color: white; }
+        .btn-buyer { background-color: #1565c0; color: white; }
+
+        /* Product Grid (For Selection) */
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card.selected {
+            border-color: var(--accent-color);
+            background-color: #fff8e1;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .product-card h3 {
+            font-size: 1rem;
+            padding: 10px 5px 5px 5px;
+            color: #333;
+        }
+
+        .product-card p {
+            font-size: 0.8rem;
+            color: #666;
+            padding-bottom: 10px;
+        }
+
+        /* Form and Action Area */
+        .action-box {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Hidden Sections */
+        .hidden { display: none; }
+
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>Kisan Super 🌾</h1>
+        <div style="font-weight: bold;">लॉगिन करें</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="role-box" id="login-section">
+            <h2>आप कौन हैं? चुनकर आगे बढ़ें</h2>
+            <div class="btn-group">
+                <button class="btn btn-farmer" onclick="showDashboard('farmer')">मैं किसान हूँ (बेचना है)</button>
+                <button class="btn btn-buyer" onclick="showDashboard('buyer')">मैं कंपनी हूँ (खरीदना है)</button>
+            </div>
+        </div>
+
+        <div id="farmer-dashboard" class="hidden">
+            <h2 class="section-title">क्या बेचना चाहते हैं? फोटो पर क्लिक करें</h2>
+            
+            <div class="product-grid">
+                <div class="product-card" onclick="selectProduct(this, 'टमाटर')">
+                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="टमाटर">
+                    <h3>टमाटर</h3>
+                    <p>सॉस/केचप फैक्ट्री के लिए</p>
+                </div>
+                <div class="product-card" onclick="selectProduct(this, 'आलू')">
+                    <img src="https://images.unsplash.com/photo-1518977676601-b53f02db695d?w=400" alt="आलू">
+                    <h3>आलू</h3>
+                    <p>चिप्स फैक्ट्री के लिए</p>
+                </div>
+                <div class="product-card" onclick="selectProduct(this, 'मटर')">
+                    <img src="https://images.unsplash.com/photo-1592394533824-9440e5d68542?w=400" alt="मटर">
+                    <h3>मटर</h3>
+                    <p>फ्रोजन फूड के लिए</p>
+                </div>
+                <div class="product-card" onclick="selectProduct(this, 'सेब')">
+                    <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc888a?w=400" alt="सेब">
+                    <h3>सेब (फलों के राजा)</h3>
+                    <p>जूस फैक्ट्री के लिए</p>
+                </div>
+            </div>
+
+            <div class="action-box">
+                <h3 style="margin-bottom: 15px; color: var(--primary-color);">चुनी गई फसल: <span id="selected-crop-text" style="color: var(--accent-color);">कोई नहीं</span></h3>
+                
+                <div class="form-group">
+                    <label>कुल मात्रा (क्विंटल या टन में)</label>
+                    <input type="text" placeholder="जैसे: 50 क्विंटल या 2 ट्रैक्टर">
+                </div>
+                <div class="form-group">
+                    <label>आपका मोबाइल नंबर</label>
+                    <input type="text" placeholder="10 अंकों का नंबर डालें">
+                </div>
+                
+                <button class="submit-btn" onclick="alert('आपकी फसल कंपनियों को भेज दी गई है! जल्द ही कंपनी वाले आपसे संपर्क करेंगे।')">कंपनियों को सीधे भेजें 🚀</button>
+            </div>
+        </div>
+
+        <div id="buyer-dashboard" class="hidden">
+            <h2 class="section-title">आपकी फैक्ट्री को किस चीज की जरूरत है?</h2>
+            
+            <div class="product-grid">
+                <div class="product-card" onclick="selectProduct(this, 'टमाटर')">
+                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="टमाटर">
+                    <h3>टमाटर खरीदें</h3>
+                    <p>सॉस कंपनियों के लिए</p>
+                </div>
+                <div class="product-card" onclick="selectProduct(this, 'आलू')">
+                    <img src="https://images.unsplash.com/photo-1518977676601-b53f02db695d?w=400" alt="आलू">
+                    <h3>आलू खरीदें</h3>
+                    <p>चिप्स कंपनियों के लिए</p>
+                </div>
+                <div class="product-card" onclick="selectProduct(this, 'आम')">
+                    <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=400" alt="आम">
+                    <h3>आम खरीदें</h3>
+                    <p>मैंगो शेक/जूस कंपनियों के लिए</p>
+                </div>
+            </div>
+
+            <div class="action-box" style="border-top-color: #1565c0;">
+                <h3 style="margin-bottom: 15px; color: #1565c0;">मांग की गई फसल: <span id="buyer-crop-text" style="color: var(--accent-color);">कोई नहीं</span></h3>
+                
+                <div class="form-group">
+                    <label>फैक्ट्री के लिए कुल कितनी मांग (Quantity) है?</label>
+                    <input type="text" placeholder="जैसे: 100 टन">
+                </div>
+                
+                <button class="submit-btn" style="background-color: #1565c0;" onclick="alert('आपकी मांग आसपास के किसानों को भेज दी गई है!')">किसानों से माल खरीदें 🛒</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // डैश्बोर्ड बदलने का लॉजिक
+        function showDashboard(role) {
+            document.getElementById('login-section').classList.add('hidden');
+            const header = document.getElementById('main-header');
+            
+            if (role === 'farmer') {
+                document.getElementById('farmer-dashboard').classList.remove('hidden');
+                header.style.backgroundColor = '#2e7d32'; // Green for Farmer
+                header.innerHTML = '<h1>Kisan Super 🌾</h1><div>किसान पोर्टल</div>';
+            } else if (role === 'buyer') {
+                document.getElementById('buyer-dashboard').classList.remove('hidden');
+                header.style.backgroundColor = '#1565c0'; // Blue for Company
+                header.innerHTML = '<h1>Kisan Super 🌾</h1><div>कंपनी पोर्टल</div>';
+            }
+        }
+
+        // फसल चुनने का लॉजिक
+        function selectProduct(element, cropName) {
+            // पुराने सिलेक्टेड कार्ड से बॉर्डर हटाना
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            // नए कार्ड पर बॉर्डर लगाना
+            element.classList.add('selected');
+            
+            // टेक्स्ट बदलना
+            document.getElementById('selected-crop-text').innerText = cropName;
+            document.getElementById('buyer-crop-text').innerText = cropName;
+        }
+    </script>
+
+</body>
+</html>
